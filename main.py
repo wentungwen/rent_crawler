@@ -1,7 +1,5 @@
 import json
-import datetime
 import os
-
 from twilio.rest import Client
 from selenium import webdriver
 
@@ -13,7 +11,7 @@ receiver_phone_number = os.environ.get('RECEIVER_PHONE_NUMBER')
 url = os.environ.get('URL')
 previous_listings_file = os.environ.get('PREVIOUS_LISTINGS_FILE')
 
-print(account_sid)
+
 # Function to send the SMS notification
 def send_sms(msg):
     client = Client(account_sid, auth_token)
@@ -43,11 +41,11 @@ def search_for_new_houses():
     driver.get(url)
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
-    house = {}
     current_idx = 0
     try:
         for idx, n in enumerate(housing_titles):
             if idx % 2 == 0:
+                house = {}
                 house["title"] = n.text
             else:
                 house["location"] = n.text
@@ -59,14 +57,6 @@ def search_for_new_houses():
         print(e)
 
 
-def new_added_houses(new, pre):
-    added_houses = []
-    for house in new:
-        if house not in pre:
-            added_houses.append(house)
-    return added_houses
-
-
 def generate_msg_text(new_added):
     txt = f"New houses on {url}\n"
     for idx, house in enumerate(new_added):
@@ -75,18 +65,36 @@ def generate_msg_text(new_added):
 
 
 # Function to save updated listings to file
-def update_listings(listings):
-    with open(previous_listings_file, 'a') as file:
-        json.dump(new_added_houses, file)
+def update_listings(new_added):
+    with open(previous_listings_file, 'r') as file:
+        previous_houses = json.load(file)
+    previous_houses.extend(new_added)
+    with open(previous_listings_file, 'w') as file:
+        json.dump(new_added, file, indent=4)
 
 
-previous_houses = load_previous_listings()
-# new_houses = search_for_new_houses()
-new_houses = [{'title': 'testest8', 'location': 'testt'}, {'title': 'testedwst8', 'location': 'testt'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}, {'title': 'Professor de Moorplein 278', 'location': 'Tilburg | West | De Reit'}]
-new_added_houses = new_added_houses(new_houses, previous_houses)
-msg = generate_msg_text(new_added_houses)
+def new_added_houses(new, pre):
+    added_houses = []
+    for house in new:
+        house_exists = False
+        for prev_house in pre:
+            if house["title"] == prev_house["title"] and house["location"] == prev_house["location"]:
+                house_exists = True
+                break
+        if not house_exists:
+            added_houses.append(house)
+    return added_houses
 
-print(msg)
-send_sms(msg)
-# update_listings()
 
+def main():
+    previous_houses = load_previous_listings()
+    new_houses = search_for_new_houses()
+    new_added = new_added_houses(new_houses, previous_houses)
+
+    if new_added:
+        msg = generate_msg_text(new_added)
+        send_sms(msg)
+        update_listings(new_added)
+
+
+main()
