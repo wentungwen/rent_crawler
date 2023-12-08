@@ -111,6 +111,7 @@ def main():
         update_listings(new_added)
         print(f'{ len(new_added) } houses found!')
     else:
+        send_sms("no houses")
         print('No new houses found!')
 
 
