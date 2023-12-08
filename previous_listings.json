@@ -4,23 +4,31 @@
         "location": "Tilburg | Oud-Zuid | Broekhoven"
     },
     {
-        "title": "Oude Dijk 2-08",
-        "location": "Tilburg | Oud-Zuid | Broekhoven"
-    },
-    {
-        "title": "Hogeschoollaan 148",
+        "title": "Professor de Moorplein 278",
         "location": "Tilburg | West | De Reit"
     },
     {
-        "title": "Van Delfthof 169",
-        "location": "Tilburg | Centrum | Centrum (Tilburg)"
+        "title": "test",
+        "location": "test"
+    },
+    {
+        "title": "Zandbergweg 226-KMR05",
+        "location": "Breda | Oost | Zandberg"
+    },
+    {
+        "title": "Hogeschoollaan 142-05",
+        "location": "Tilburg | West | De Reit"
+    },
+    {
+        "title": "Pasbaan 11-B2 KMR 01",
+        "location": "Breda | Centrum | Chass\u00e9"
+    },
+    {
+        "title": "Zandbergweg 226-KMR06",
+        "location": "Breda | Oost | Zandberg"
     },
     {
         "title": "Van Delfthof 11",
         "location": "Tilburg | Centrum | Centrum (Tilburg)"
-    },
-    {
-        "title": "Professor de Moorplein 278",
-        "location": "Tilburg | West | De Reit"
     }
 ]

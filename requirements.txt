@@ -1,3 +1,4 @@
 requests
 twilio
 selenium
+webdriver_manager

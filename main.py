@@ -2,6 +2,9 @@ import json
 import os
 from twilio.rest import Client
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 # Twilio account details
 account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -37,7 +40,18 @@ def load_previous_listings():
 
 # Function to scrape new houses
 def search_for_new_houses():
-    driver = webdriver.Chrome()
+    chrome_driver_path = os.path.join(os.path.dirname(__file__), "chromedriver")
+    # chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+    options = webdriver.ChromeOptions()
+    options.add_argument("disable-dev-shm-usage")
+
+    # service = webdriver.chrome.service.Service(chrome_driver_path)
+    service = ChromeService(executable_path=chrome_driver_path)
+    service.start()
+
+    # driver = webdriver.Chrome(service=service, executable_path=chrome_path, options=options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.get(url)
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
@@ -70,7 +84,7 @@ def update_listings(new_added):
         previous_houses = json.load(file)
     previous_houses.extend(new_added)
     with open(previous_listings_file, 'w') as file:
-        json.dump(new_added, file, indent=4)
+        json.dump(previous_houses, file, indent=4)
 
 
 def new_added_houses(new, pre):
@@ -95,6 +109,9 @@ def main():
         msg = generate_msg_text(new_added)
         send_sms(msg)
         update_listings(new_added)
+        print(f'{ len(new_added) } houses found!')
+    else:
+        print('No new houses found!')
 
 
 main()
