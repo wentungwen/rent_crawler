@@ -103,11 +103,11 @@ def main():
 
     if new_added:
         msg = generate_msg_text(new_added)
-        # send_sms(msg)
+        send_sms(msg)
         update_listings(new_added)
         print(f'{ len(new_added) } houses found!')
     else:
-        # send_sms("no houses")
+        send_sms("no houses")
         print('No new houses found!')
 
 
