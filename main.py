@@ -19,12 +19,17 @@ previous_listings_file = os.environ.get('PREVIOUS_LISTINGS_FILE')
 def send_sms(msg):
     client = Client(account_sid, auth_token)
     message = client.messages.create(
-        from_=twilio_phone_number,
+        from_=f"{twilio_phone_number}",
         body=msg,
-        to=receiver_phone_number
+        to=f"{receiver_phone_number}"
     )
     print('SMS notification sent!')
 
+# message = client.messages.create(
+#                               from_='whatsapp:+14155238886',
+#                               body='Hello there!',
+#                               to='whatsapp:+15005550006'
+#                           )
 
 # Function to load previously scraped listings from file
 def load_previous_listings():
@@ -107,7 +112,6 @@ def main():
         update_listings(new_added)
         print(f'{ len(new_added) } houses found!')
     else:
-        send_sms("no houses")
         print('No new houses found!')
 
 
