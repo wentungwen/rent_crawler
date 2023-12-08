@@ -40,18 +40,14 @@ def load_previous_listings():
 
 # Function to scrape new houses
 def search_for_new_houses():
-    chrome_driver_path = os.path.join(os.path.dirname(__file__), "chromedriver")
-    # chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    # chrome_driver_path = os.path.join(os.path.dirname(__file__), "chromedriver")
 
     options = webdriver.ChromeOptions()
     options.add_argument("disable-dev-shm-usage")
 
-    # service = webdriver.chrome.service.Service(chrome_driver_path)
-    service = ChromeService(executable_path=chrome_driver_path)
-    service.start()
+    service = ChromeService(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
 
-    # driver = webdriver.Chrome(service=service, executable_path=chrome_path, options=options)
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.get(url)
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
@@ -107,11 +103,11 @@ def main():
 
     if new_added:
         msg = generate_msg_text(new_added)
-        send_sms(msg)
+        # send_sms(msg)
         update_listings(new_added)
         print(f'{ len(new_added) } houses found!')
     else:
-        send_sms("no houses")
+        # send_sms("no houses")
         print('No new houses found!')
 
 
