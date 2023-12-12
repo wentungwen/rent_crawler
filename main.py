@@ -55,6 +55,7 @@ def search_for_new_houses():
     driver = webdriver.Chrome(service=service, options=options)
 
     driver.get(url)
+    print(driver.page_source)
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
     current_idx = 0
@@ -109,7 +110,7 @@ def main():
     print(previous_houses, new_houses, new_added)
     if new_added:
         msg = generate_msg_text(new_added)
-        send_sms(msg)
+        # send_sms(msg)
         update_listings(new_added)
         print(f'{ len(new_added) } houses found!')
     else:
