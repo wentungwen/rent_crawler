@@ -105,7 +105,7 @@ def main():
     previous_houses = load_previous_listings()
     new_houses = search_for_new_houses()
     new_added = new_added_houses(new_houses, previous_houses)
-
+    print(previous_houses, new_houses, new_added)
     if new_added:
         msg = generate_msg_text(new_added)
         send_sms(msg)
