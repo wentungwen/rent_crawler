@@ -49,7 +49,7 @@ def search_for_new_houses():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
-    options.add_argument("disable-dev-shm-usage")
+    options.add_argument("--disable-dev-shm-usage")
 
     service = ChromeService(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
