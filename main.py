@@ -48,6 +48,8 @@ def search_for_new_houses():
     # chrome_driver_path = os.path.join(os.path.dirname(__file__), "chromedriver")
 
     options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
     options.add_argument("disable-dev-shm-usage")
 
     service = ChromeService(ChromeDriverManager().install())
