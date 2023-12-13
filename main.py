@@ -14,15 +14,12 @@ auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
 twilio_phone_number = os.environ.get("TWILIO_PHONE_NUMBER")
 receiver_phone_number = os.environ.get("RECEIVER_PHONE_NUMBER")
 url = os.environ.get("URL")
-db_password = os.environ.get("DB_PASSWORD")
-db_user = os.environ.get("DB_USER")
 
-# postgres://tmdadm:Uo78irty@localhost:5432/rent
+# database
+db_uri = os.environ.get("DATABASE_URL")
 
 # connect to database
-conn = psycopg2.connect(
-    host="localhost", database="rent", user=db_user, password=db_password, port="5432"
-)
+conn = psycopg2.connect(db_uri)
 cur = conn.cursor()
 
 
