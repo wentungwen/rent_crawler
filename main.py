@@ -16,6 +16,7 @@ receiver_phone_number = os.environ.get("RECEIVER_PHONE_NUMBER")
 url = os.environ.get("URL")
 
 # database
+print(os.environ.get("DATABASE_URL"))
 db_uri = os.environ.get("DATABASE_URL")
 
 # connect to database
@@ -23,11 +24,8 @@ conn = psycopg2.connect(db_uri)
 cur = conn.cursor()
 
 
-def update_db(houses):
-    houses_tuple = [(house["title"], house["location"]) for house in houses]
 
-    # delete and recreate table
-    cur.execute("DROP TABLE IF EXISTS houses")
+def create_db():
     cur.execute(
         """ CREATE TABLE IF NOT EXISTS houses(
                 id SERIAL PRIMARY KEY,
@@ -35,6 +33,15 @@ def update_db(houses):
                 location TEXT
     )"""
     )
+
+create_db() 
+
+
+def update_db(houses):
+    houses_tuple = [(house["title"], house["location"]) for house in houses]
+    # delete and recreate table
+    cur.execute("DROP TABLE IF EXISTS houses")
+    create_db()
 
     insert_script = "INSERT INTO houses(title, location) VALUES (%s, %s)"
     cur.executemany(insert_script, houses_tuple)
