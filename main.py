@@ -54,7 +54,7 @@ def search_for_new_houses():
 
     driver.get(url)
     wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+    # wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
