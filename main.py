@@ -1,5 +1,3 @@
-import json
-import os
 from twilio.rest import Client
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -8,6 +6,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 # from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import json
+import os
 
 
 # Twilio account details
