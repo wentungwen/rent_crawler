@@ -1,6 +1,4 @@
-json
-time
-os
+requests
 twilio
 selenium
 webdriver_manager
