@@ -3,6 +3,9 @@ import os
 from twilio.rest import Client
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -25,11 +28,6 @@ def send_sms(msg):
     )
     print('SMS notification sent!')
 
-# message = client.messages.create(
-#                               from_='whatsapp:+14155238886',
-#                               body='Hello there!',
-#                               to='whatsapp:+15005550006'
-#                           )
 
 # Function to load previously scraped listings from file
 def load_previous_listings():
@@ -55,7 +53,9 @@ def search_for_new_houses():
     driver = webdriver.Chrome(service=service, options=options)
 
     driver.get(url)
-    print(driver.page_source)
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+
     scraped_new_houses = []
     housing_titles = driver.find_elements("xpath", "//span[contains(@class, 'address-part')]")
     current_idx = 0
