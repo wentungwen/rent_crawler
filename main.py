@@ -3,10 +3,11 @@ import os
 from twilio.rest import Client
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 
 # Twilio account details
@@ -53,7 +54,7 @@ def search_for_new_houses():
     driver = webdriver.Chrome(service=service, options=options)
 
     driver.get(url)
-    wait = WebDriverWait(driver, 10)
+    time.sleep(15)
     # wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
     scraped_new_houses = []
