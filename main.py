@@ -99,9 +99,7 @@ def search_for_new_houses():
 
 
 def generate_msg_text(new_added):
-    txt = f"New houses on {url}\n"
-    for idx, house in enumerate(new_added):
-        txt += f"{idx}. {house['title']}: {house['location']}\n"
+    txt = f"{len(new_added)}New houses on {url}\n"
     return txt
 
 
